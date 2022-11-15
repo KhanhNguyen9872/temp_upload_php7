@@ -22,7 +22,7 @@ $target_file = $target_dir . $file_name;
 $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
 
 // Check if file already exists
-if (file_exists($target_file)) {
+if (is_file($target_file)) {
   echo "Sorry, [". $file_name. "] already exists! Please rename your file and try again!";
   exit();
 }
@@ -45,7 +45,9 @@ if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
   exec("ln -s ". $target_dir. " ". $random);
   $actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
   $actual_link = substr($actual_link, 0, strrpos( $actual_link, '/upload.php'));
-  echo $actual_link. "/". $random."/". $file_name;
+  $actual_link2 = $actual_link. "/". $random."/". $file_name;
+  $actual_link = str_replace(' ', '%20', $actual_link2);
+  echo $actual_link;
 } else {
   echo "Sorry, there was an error uploading your file!";
 }
