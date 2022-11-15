@@ -10,7 +10,7 @@ Web temp file upload using PHP7, HTML on Linux
 1. Install dependent
 ```bash
 sudo apt update -y
-sudo apt install php apache2 -y
+sudo apt install php apache2 git -y
 ```
 2. Remove original html file
 ```bash
