@@ -28,8 +28,8 @@ while IFS= read -r ida; do
 	fi
 done < <(printf '%s\n' "$list_php")
 
-echo "Restart Apache2 Service...."
-${sudo} service apache2 restart > /dev/null 2>&1
+echo "Stopping Apache2 Service...."
+${sudo} service apache2 stop > /dev/null 2>&1
 
 echo "Removing install file...."
 ${sudo} rm -rf ./*.sh ./*.ini ./*.md > /dev/null 2>&1
