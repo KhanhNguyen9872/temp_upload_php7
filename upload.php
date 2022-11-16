@@ -21,14 +21,20 @@ function random_string($length = 15) {
 function change_to_txt($filename) {
     return $filename . '.txt';
 }
-$date = date("Y-m-d");
-$upload_folder = "uploads";
+$random = random_string();
 $target_dir = $upload_folder. "/". $date. "/";
+
 if (!is_dir($upload_folder)) {
-  exec("mkdir ". $upload_folder);
+  exec("mkdir ". $upload_folder . $null_out);
 }
 if (!is_dir($target_dir)) {
-  exec("rm -rf ". $upload_folder."/*; find . -xtype l -delete; mkdir ". $target_dir);
+  exec("rm -rf ". $upload_folder."/*". $null_out ."; find . -xtype l -delete ". $null_out ."; mkdir ". $target_dir . $null_out);
+}
+
+$target_dir = $target_dir . $random . "/";
+
+if (!is_dir($target_dir)) {
+  exec("mkdir ". $target_dir . $null_out);
 }
 
 $target_file = $target_dir . $file_name;
@@ -42,7 +48,7 @@ if (is_file($target_file)) {
 
 // Check file size before upload
 $size_file = $_FILES["fileToUpload"]["size"];
-if ($_FILES["fileToUpload"]["size"] > $max_size_file) {
+if ($size_file > $max_size_file) {
   echo "Sorry, this file is too large (". $size_file. " byte)";
   exit();
 }
@@ -54,8 +60,7 @@ if($imageFileType == "php" || $imageFileType == "html" || $imageFileType == "js"
 }
 
 if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
-  $random = random_string();
-  exec("ln -s ". $target_dir. " ". $random);
+  exec("ln -s ". $target_dir. " ". $random . $null_out);
   $actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
   $actual_link = substr($actual_link, 0, strrpos( $actual_link, '/upload.php'));
   $file_name = rawurlencode($file_name);
