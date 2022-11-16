@@ -1,9 +1,5 @@
 <?php
-  $upload = ini_get('file_uploads');
-  if ($upload != "1") {
-    echo "File upload has been disabled on the server!";
-    exit();
-  }
+require_once 'check.php';
 ?>
 <!DOCTYPE html>
 <html><body>
