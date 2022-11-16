@@ -1,5 +1,5 @@
 <?php
-function generateRandomString($length = 15) {
+function random_string($length = 15) {
     $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
     $charactersLength = strlen($characters);
     $randomString = '';
@@ -7,6 +7,10 @@ function generateRandomString($length = 15) {
         $randomString .= $characters[rand(0, $charactersLength - 1)];
     }
     return $randomString;
+}
+function change_to_txt($filename) {
+    $info = pathinfo($filename);
+    return $info['filename'] . '.txt';
 }
 $date = date("Y-m-d");
 $upload_folder = "uploads";
@@ -29,19 +33,19 @@ if (is_file($target_file)) {
 
 // Check file size before upload
 $size_file = $_FILES["fileToUpload"]["size"];
-if ($_FILES["fileToUpload"]["size"] > 134217800) {
+if ($_FILES["fileToUpload"]["size"] > 268435456) {
   echo "Sorry, this file is too large (". $size_file. " byte)";
   exit();
 }
 
-// File format not allowed
-if($imageFileType == "php" || $imageFileType == "html" || $imageFileType == "css" || $imageFileType == "js" || $imageFileType == "xml" || $imageFileType == "xphp" || $imageFileType == "php5") {
-  echo "Sorry, CSS, PHP, JS, HTML, XML, XPHP, PHP5 files are not allowed.";
-  exit();
+// Change to txt all file formats not allowed
+if($imageFileType == "php" || $imageFileType == "html" || $imageFileType == "js" || $imageFileType == "xml" || $imageFileType == "xphp" || $imageFileType == "php5") {
+  $file_name = change_to_txt($file_name);
+  $target_file = $target_dir . $file_name;
 }
 
 if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
-  $random = generateRandomString();
+  $random = random_string();
   exec("ln -s ". $target_dir. " ". $random);
   $actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
   $actual_link = substr($actual_link, 0, strrpos( $actual_link, '/upload.php'));

@@ -3,7 +3,9 @@
 <body>
 
 <form action="upload.php" method="post" enctype="multipart/form-data">
-  Select image to upload (Max: 128MB):
+  <?php
+  echo "Select image to upload (Max: ". ini_get('post_max_size'). ")";
+  ?>
   <br>
   <input type="file" name="fileToUpload" id="fileToUpload">
   </br><br>
