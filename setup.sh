@@ -32,6 +32,6 @@ echo "Stopping Apache2 Service...."
 ${sudo} service apache2 stop > /dev/null 2>&1
 
 echo "Removing install file...."
-${sudo} rm -rf ./*.sh ./*.ini ./README* > /dev/null 2>&1
+${sudo} rm -rf ./*.sh ./*.ini ./*.bat ./README* > /dev/null 2>&1
 
 echo "Done!"
