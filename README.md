@@ -12,20 +12,28 @@ Web temp file upload using PHP7, HTML on Linux
 sudo apt update -y
 sudo apt install php apache2 git -y
 ```
-2. Remove original html file
+2. Export apache2 path html
 ```bash
-sudo rm -rf /var/www/html
+export path_install="/var/www/html"
 ```
-3. Clone this repo to /var/www/html
+3. Remove original html
 ```bash
-sudo git clone https://github.com/KhanhNguyen9872/temp_upload_php7.git /var/www/html
+sudo rm -rf ${path_install}
 ```
-4. Grant all permission in /var/www/html
+4. Clone this repo to /var/www/html
 ```bash
-sudo chmod 777 /var/www/html -R
+sudo git clone https://github.com/KhanhNguyen9872/temp_upload_php7.git ${path_install}
 ```
-5. Start Apache2
+5. Grant all permission in /var/www/html
+```bash
+sudo chmod 777 ${path_install} -R
+```
+6. Setup Apache2 and PHP config
+```bash
+cd ${path_install}; sudo bash setup.sh
+```
+7. Start Apache2
 ```bash
 sudo service apache2 start
 ```
-6. Enjoy on your web!
+8. Enjoy on your web!
