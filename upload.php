@@ -22,19 +22,24 @@ function change_to_txt($filename) {
     return $filename . '.txt';
 }
 $random = random_string();
-$target_dir = $upload_folder. "/". $date. "/";
+$target_dir = $upload_folder . $sym . $date . $sym;
 
 if (!is_dir($upload_folder)) {
-  exec("mkdir ". $upload_folder . $null_out);
+  exec($mkdir . $upload_folder . $null_out);
 }
 if (!is_dir($target_dir)) {
-  exec("rm -rf ". $upload_folder."/*". $null_out ."; find . -xtype l -delete ". $null_out ."; mkdir ". $target_dir . $null_out);
+  exec($rm_folder . $upload_folder . $null_out);
+  if ($win == "0") {
+    exec("find . -xtype l -delete " . $null_out);
+  }
+  exec($mkdir . $upload_folder . $null_out);
+  exec($mkdir . $target_dir . $null_out);
 }
 
-$target_dir = $target_dir . $random . "/";
+$target_dir = $target_dir . $random . $sym;
 
 if (!is_dir($target_dir)) {
-  exec("mkdir ". $target_dir . $null_out);
+  exec($mkdir . $target_dir . $null_out);
 }
 
 $target_file = $target_dir . $file_name;
@@ -60,7 +65,12 @@ if($imageFileType == "php" || $imageFileType == "html" || $imageFileType == "js"
 }
 
 if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
-  exec("ln -s ". $target_dir. " ". $random . $null_out);
+  // Create a symlink
+  if ($win == "0") {
+    exec($mk_symlink . $target_dir . " " . $random . $null_out);
+  } else {
+    exec($mk_symlink . $random . " " . $target_dir . $null_out);
+  }
   $actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
   $actual_link = substr($actual_link, 0, strrpos( $actual_link, '/upload.php'));
   $file_name = rawurlencode($file_name);
