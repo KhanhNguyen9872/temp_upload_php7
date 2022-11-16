@@ -1,5 +1,14 @@
 <?php
+$file_name = htmlspecialchars( basename( $_FILES["fileToUpload"]["name"]));
+
+// Check if file upload not selected
+if ($file_name == "") {
+  echo "Sorry, you haven't selected a file to upload!";
+  exit();
+}
+
 require 'config.php';
+
 function random_string($length = 15) {
     $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
     $charactersLength = strlen($characters);
@@ -21,7 +30,7 @@ if (!is_dir($upload_folder)) {
 if (!is_dir($target_dir)) {
   exec("rm -rf ". $upload_folder."/*; find . -xtype l -delete; mkdir ". $target_dir);
 }
-$file_name = htmlspecialchars( basename( $_FILES["fileToUpload"]["name"]));
+
 $target_file = $target_dir . $file_name;
 $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
 
