@@ -1,5 +1,10 @@
 # temp_upload_php7
-Web temp file upload using PHP7, HTML on Linux
+Web temp file upload look like temp.sh/transfer.sh using PHP7, HTML on Linux
+<img alt="README" src="https://raw.githubusercontent.com/KhanhNguyen9872/temp_upload_php7/main/README.png" />
+
+
+## DEMO
+[Temp Upload](https://temp.run.goorm.io)
 
 ## Required
 - Linux (Ubuntu, Debian, Kali Linux,...)
