@@ -1,5 +1,7 @@
 <?php
 require_once 'check.php';
+require 'config.php';
+$size = $max_size_file / 1024;
 ?>
 <!DOCTYPE html>
 <title>Temp Upload</title>
@@ -8,7 +10,7 @@ require_once 'check.php';
 <meta charset="UTF-8"/>
 <form action="upload.php" method="post" enctype="multipart/form-data">
   <?php
-  echo "Select file to upload (Max: ". ini_get('post_max_size'). ")";
+  echo "Select file to upload (Max: ". $size. " KB)";
   ?>
   <br>
   <input type="file" name="fileToUpload" id="fileToUpload">

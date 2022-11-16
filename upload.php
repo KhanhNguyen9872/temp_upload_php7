@@ -1,4 +1,5 @@
 <?php
+require 'config.php';
 function random_string($length = 15) {
     $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
     $charactersLength = strlen($characters);
@@ -32,7 +33,7 @@ if (is_file($target_file)) {
 
 // Check file size before upload
 $size_file = $_FILES["fileToUpload"]["size"];
-if ($_FILES["fileToUpload"]["size"] > 268435456) {
+if ($_FILES["fileToUpload"]["size"] > $max_size_file) {
   echo "Sorry, this file is too large (". $size_file. " byte)";
   exit();
 }
