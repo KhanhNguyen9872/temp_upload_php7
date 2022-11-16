@@ -3,7 +3,7 @@ require_once 'check.php';
 ?>
 <!DOCTYPE html>
 <html><body>
-<meta name="viewport" content="width=device-width, initial-scale=2">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <form action="upload.php" method="post" enctype="multipart/form-data">
   <?php
   echo "Select file to upload (Max: ". ini_get('post_max_size'). ")";
