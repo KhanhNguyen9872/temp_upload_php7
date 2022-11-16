@@ -17,5 +17,9 @@ $size = $max_size_file / 1024;
   </br><br>
   <input type="submit" value="Upload" name="submit">
   </br>
-</form>
+</form><br>
+<?php
+echo "The file will be deleted the next day!";
+?>
+</br>
 </body></html>
