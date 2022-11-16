@@ -7,9 +7,7 @@ Web temp file upload look like temp.sh/transfer.sh using PHP7, HTML on Linux and
 [Temp Upload](https://temp.run.goorm.io)
 
 ## Required
-- Windows (XAMPP, AppServ,...)
-or
-- Linux (Ubuntu, Debian, Kali Linux,...)
+- Linux (Ubuntu, Debian, Kali Linux,...) or Windows (XAMPP, AppServ,...)
 - Apache2
 - PHP7 or up
 
