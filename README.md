@@ -1,17 +1,19 @@
 # temp_upload_php7
-Web temp file upload look like temp.sh/transfer.sh using PHP7, HTML on Linux
-<img alt="README" src="https://raw.githubusercontent.com/KhanhNguyen9872/temp_upload_php7/main/README.png" />
+Web temp file upload look like temp.sh/transfer.sh using PHP7, HTML on Linux and Windows
 
+<img alt="README" src="https://raw.githubusercontent.com/KhanhNguyen9872/temp_upload_php7/main/README.png" />
 
 ## DEMO
 [Temp Upload](https://temp.run.goorm.io)
 
 ## Required
+- Windows (XAMPP, AppServ,...)
+or
 - Linux (Ubuntu, Debian, Kali Linux,...)
 - Apache2
 - PHP7 or up
 
-## Installation
+## Installation for Linux
 1. Install dependent
 ```bash
 sudo apt update -y
@@ -42,3 +44,9 @@ cd ${path_install}; sudo bash setup.sh
 sudo service apache2 start
 ```
 8. Enjoy on your web!
+
+## Installation for Windows
+1. Download this repo [here](https://github.com/KhanhNguyen9872/temp_upload_php7/archive/refs/heads/main.zip)
+2. Extract it and move all file to your website folder
+3. Run setup-windows.bat and do with this tutorial
+4. Start your server and enjoy
