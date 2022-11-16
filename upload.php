@@ -9,8 +9,7 @@ function random_string($length = 15) {
     return $randomString;
 }
 function change_to_txt($filename) {
-    $info = pathinfo($filename);
-    return $info['filename'] . '.txt';
+    return $filename . '.txt';
 }
 $date = date("Y-m-d");
 $upload_folder = "uploads";
