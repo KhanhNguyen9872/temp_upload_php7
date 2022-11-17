@@ -1,6 +1,7 @@
 <?php
 require_once 'check.php';
 require 'config.php';
+$date = date('m/d/Y h:i:s a', time());
 ?>
 <!DOCTYPE html>
 <title>Temp Upload</title>
@@ -19,6 +20,8 @@ require 'config.php';
 </form><br>
 <?php
 echo "The file will be deleted in the next day!";
+?></br><br>
+<?php
+echo "Server time: " . $date;
 ?>
-</br>
-</body></html>
+</br></body></html>
