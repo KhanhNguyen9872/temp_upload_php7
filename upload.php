@@ -49,9 +49,11 @@ if ($size_file > $max_size_file) {
 }
 
 $file_name2 = $file_name;
+$target_file = $target_dir . $file_name;
+$FileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
 
-// Rename file index.php in upload
-if ($file_name == "index.php") {
+// Rename to txt if file is unsupported type
+if ($FileType == "php" || $FileType == "html" || $FileType == "js" || $FileType == "xml" || $FileType == "css" || $FileType == "json") {
   $file_name = $file_name . '.txt';
 }
 
