@@ -45,6 +45,7 @@ sudo service apache2 start
 
 ## Installation for Windows
 1. Download this repo [here](https://github.com/KhanhNguyen9872/temp_upload_php7/archive/refs/heads/main.zip)
-2. Extract it and move all file to your website folder
-3. Run setup-windows.bat and do with this tutorial
-4. Start your server and enjoy
+2. Download and install Web Server Program (XAMPP, AppServ,...)
+3. Extract it and move all file to your website folder
+4. Run setup-windows.bat and do with this tutorial
+5. Start your server and enjoy

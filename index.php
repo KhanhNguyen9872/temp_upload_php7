@@ -1,7 +1,6 @@
 <?php
-require_once 'check.php';
+require 'check.php';
 require 'config.php';
-$date = date('m/d/Y h:i:s a', time());
 ?>
 <!DOCTYPE html>
 <title>Temp Upload</title>
@@ -22,6 +21,6 @@ $date = date('m/d/Y h:i:s a', time());
 echo "The file will be deleted in the next day!";
 ?></br><br>
 <?php
-echo "Server time: " . $date;
+echo "Server time: " . date('m/d/Y h:i:s a', time());
 ?>
 </br></body></html>

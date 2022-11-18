@@ -3,6 +3,8 @@
 $max_size_file = 536870912;
 // Folder save file upload
 $upload_folder = "uploads";
+// Folder for user download
+$download_folder = "file";
 // Date of folder
 $date = date("Y-m-d");
 // Check Windows or not
