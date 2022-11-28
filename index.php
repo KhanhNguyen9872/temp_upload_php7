@@ -1,5 +1,4 @@
 <?php
-require 'check.php';
 require 'config.php';
 ?>
 <!DOCTYPE html>

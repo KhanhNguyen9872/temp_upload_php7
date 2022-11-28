@@ -7,7 +7,6 @@ if ($file_name == "") {
 }
 
 require 'config.php';
-require 'check.php';
 
 function random_string() {
     $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
