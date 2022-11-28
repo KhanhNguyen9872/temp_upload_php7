@@ -23,4 +23,7 @@ echo "The file will be deleted in the next day!";
 <?php
 echo "Server time: " . date('m/d/Y h:i:s a', time());
 ?>
-</br></body></html>
+</br>
+<div class="form-group">
+  <input type="button" value="Source code Temp Upload" onclick="document.location.href='https://github.com/KhanhNguyen9872/temp_upload_php7'" />
+</div></body></html>
