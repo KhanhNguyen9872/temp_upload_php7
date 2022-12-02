@@ -64,9 +64,17 @@ if (is_file($target_file)) {
 }
 
 if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
+  // Get url for download
+  $actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+  $actual_link = substr($actual_link, 0, strrpos( $actual_link, '/upload.php'));
+  //$file_name = rawurlencode($file_name);
+  $actual_link = $actual_link . "/" . $download_folder . "/" . $random;
+
   // Create a download script
   $sd = fopen($target_dir . $sym . "index.php", "w") or die("Cannot create a download script!");
-  $txt = "<?php\nheader('Content-Description: File Transfer');\nheader('Content-Type: application/octet-stream');\nheader('Content-Disposition: attachment; filename=\"" . $file_name2 . "\"');\nheader('Content-Transfer-Encoding: binary');\nheader('Connection: Keep-Alive');\nheader('Expires: 0');\nheader('Cache-Control: must-revalidate, post-check=0, pre-check=0');\nheader('Pragma: public');\nheader('Content-Length: " . $size_file . "');\nob_clean();\nflush();\nreadfile(\"" . $file_name . "\");\nexit();\n?>";
+
+  $txt = "<?php\n\$file_name = \"" . $file_name2 . "\";\$size = " . $size_file . ";\nif(isset(\$_POST['downloadf'])) {\nheader('Content-Description: File Transfer');\nheader('Content-Type: application/octet-stream');\nheader('Content-Disposition: attachment; filename=\"" . $file_name . "\"');\nheader('Content-Transfer-Encoding: binary');\nheader('Connection: Keep-Alive');\nheader('Expires: 0');\nheader('Cache-Control: must-revalidate, post-check=0, pre-check=0');\nheader('Pragma: public');\nheader(\"Content-Length: \" . \$size);\nob_clean();\nflush();\nreadfile(\$file_name);\nexit();\n}\n?>\n<!DOCTYPE html><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"><meta charset=\"UTF-8\"/><html><head><?php\necho \"<title>\" . \$file_name . \"</title>\";\n?>\n</head><body><?php\necho \"<h1>\" . \$file_name . \"</h1>\";\necho \"<p>Size: \" . round(\$size / 1024) . \" KB</p>\";\n?>\n<div class=\"form-group\"><input type=\"button\" name=\"viewf\" value=\"View file\" onclick=\"document.location.href='" . $actual_link . "/" . $file_name . "'\" /></div><form method=\"post\"><input type=\"submit\" name=\"downloadf\" value=\"Download\" onclick=\"\" /></form></body></html>";
+
   fwrite($sd, $txt);
   fclose($sd);
   // Create a symlink
@@ -75,11 +83,6 @@ if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
   } else {
     exec($mk_symlink . $download_folder . $sym . $random . " .." . $sym . $target_dir . $null_out);
   }
-  // Get url for download
-  $actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-  $actual_link = substr($actual_link, 0, strrpos( $actual_link, '/upload.php'));
-  //$file_name = rawurlencode($file_name);
-  $actual_link = $actual_link . "/" . $download_folder . "/" . $random;
   echo $actual_link;
 } else {
   die("Sorry, there was an error uploading your file! Bruh... maybe my code is error ;(");

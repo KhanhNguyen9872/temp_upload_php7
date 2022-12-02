@@ -8,7 +8,7 @@ require 'config.php';
 <meta charset="UTF-8"/>
 <form action="upload.php" method="post" enctype="multipart/form-data">
   <?php
-  echo "Select file to upload (Max: ". $max_size_file / 1024 . " KB)";
+  echo "Select file to upload (Max: ". round($max_size_file / 1024) . " KB)";
   ?>
   <br>
   <input type="file" name="fileToUpload" id="fileToUpload">
@@ -16,9 +16,8 @@ require 'config.php';
   <input type="submit" value="Upload" name="submit">
   </br>
 </form><br>
-<?php
-echo "The file will be deleted in the next day!";
-?></br><br>
+The file will be deleted in the next day!
+</br><br>
 <?php
 echo "Server time: " . date('m/d/Y h:i:s a', time());
 ?>
