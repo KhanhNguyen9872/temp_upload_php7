@@ -4,7 +4,8 @@ $file_name = htmlspecialchars( basename( $_FILES["fileToUpload"]["name"]));
 
 // Check if file upload not selected
 if ($file_name == "") {
-  die("Sorry, you haven't selected a file to upload!");
+  require '404.php';
+  die();
 }
 
 require 'config.php';
@@ -68,7 +69,6 @@ if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
   // Get url for download
   $actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
   $actual_link = substr($actual_link, 0, strrpos( $actual_link, '/upload.php'));
-  //$file_name = rawurlencode($file_name);
   $actual_link = $actual_link . "/" . $download_folder . "/" . $random . "/";
 
   // Create a download script
