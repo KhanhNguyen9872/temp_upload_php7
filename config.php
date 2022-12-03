@@ -9,7 +9,7 @@ $download_folder = "file";
 // Date of folder
 $date = date("Y-m-d");
 // keep file upload, 1 for keep, 0 for delete all in next day!
-$keep_file_upload = 1;
+$keep_file_upload = 0;
 // Check Windows or not
 if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
 	$win = "1";
