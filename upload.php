@@ -1,4 +1,5 @@
 <?php
+error_reporting(0);
 $file_name = htmlspecialchars( basename( $_FILES["fileToUpload"]["name"]));
 
 // Check if file upload not selected
