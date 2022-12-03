@@ -29,10 +29,12 @@ if (!is_dir($download_folder)) {
   exec($mkdir . $download_folder . $null_out);
 }
 if (!is_dir($target_dir)) {
-  exec($rm_folder . $upload_folder . $null_out);
   exec($rm_folder . $download_folder . $null_out);
-  exec($mkdir . $upload_folder . $null_out);
   exec($mkdir . $download_folder . $null_out);
+  if ($keep_file_upload == 0) {
+    exec($rm_folder . $upload_folder . $null_out);
+    exec($mkdir . $upload_folder . $null_out);
+  }
   exec($mkdir . $target_dir . $null_out);
 }
 
