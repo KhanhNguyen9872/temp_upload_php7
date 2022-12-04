@@ -1,5 +1,7 @@
 <?php
 require 'check.php';
+// Hostname website
+$hostname = "https://temp.run.goorm.io";
 // Maximum upload file size (byte)
 $max_size_file = 536870912;
 // Folder save file upload
@@ -25,18 +27,5 @@ if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
 	$mkdir = "mkdir ";
 	$mk_symlink = "ln -s ";
 	$sym = "/";
-}
-// Check config if not null
-if ($download_folder == "") {
-  die("Download folder in config is null!");
-}
-if ($upload_folder == "") {
-  die("Upload folder in config is null!");
-}
-if ($max_size_file == "") {
-  die("Size file in config is null!");
-}
-if ($date == "") {
-  die("Date in config is null!");
 }
 ?>

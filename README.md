@@ -11,6 +11,24 @@ Web temp file upload look like temp.sh/transfer.sh using PHP7, HTML on Linux and
 - Apache2
 - PHP7 or up
 
+## Upload using cURL
+```bash
+curl --form "file=@<file-name>" <your-url>
+```
+Example:
+```bash
+curl --form "file=@music.mp3" https://temp.run.goorm.io
+```
+
+## Download using cURL
+```bash
+curl <url-download> --output <file-name>
+```
+Example:
+```bash
+curl http://temp.run.goorm.io/file/ILUGBijN0nQAPSF4TO8z/ --output music.mp3
+```
+
 ## Installation for Linux
 1. Install dependent
 ```bash
