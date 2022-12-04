@@ -110,4 +110,12 @@ echo "Server time: " . date('m/d/Y h:i:s a', time());
 </br>
 <div class="form-group">
   <input type="button" value="Source code Temp Upload" onclick="document.location.href='https://github.com/KhanhNguyen9872/temp_upload_php7'" />
-</div></body></html>
+</div>
+<script>
+document.forms[0].addEventListener('submit', function( evt ) {
+    var file = document.getElementById('file').files[0];
+    <?php
+    echo "if (file && file.size > " . $max_size_file . ") {evt.preventDefault();}"
+    ?>
+}, false);
+</script></body></html>
