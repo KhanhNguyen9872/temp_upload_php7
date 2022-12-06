@@ -10,8 +10,12 @@ $upload_folder = "uploads";
 $download_folder = "file";
 // Date of folder
 $date = date("Y-m-d");
-// keep file upload, 1 for keep, 0 for delete all in next day!
+// keep file upload (0 for FALSE, 1 for TRUE)
 $keep_file_upload = 0;
+// get log from upload and download (0 for FALSE, 1 for TRUE)
+$islog = 0;
+// Folder for save log
+$log_folder = "log";
 // Check Windows or not
 if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
 	$win = "1";

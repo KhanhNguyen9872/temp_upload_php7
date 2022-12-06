@@ -65,12 +65,14 @@ if ($file_name != "") {
   if (move_uploaded_file($_FILES["file"]["tmp_name"], $target_file)) {
     // Get url for download
     $actual_link = $hostname . "/" . $download_folder . "/" . $random . "/";
+    $actual_link = str_replace("//","/",$actual_link);
 
     // Create a download script
     $sd = fopen($target_dir . $sym . "index.php", "w") or die("Cannot create a download script!");
-
-    $txt = "<?php\nerror_reporting(0);\nfunction check_sw() {\n\$check = \$_SERVER['HTTP_USER_AGENT'];\nif ((strpos(\$check, \"curl\") !== false) || (strpos(\$check, \"Go-http-client\") !== false) || (strpos(\$check, \"aria2\") !== false) || (strpos(\$check, \"Wget\") !== false)) {return 1;}\nreturn 0;\n}\$file_name = \"" . $file_name . "\";\$file_name2 = \"" . $file_name2 . "\";\$finfo = finfo_open(FILEINFO_MIME_TYPE);\$file_type = finfo_file(\$finfo, \$file_name);finfo_close(\$finfo);\$size = " . $size_file . ";\$sw = check_sw();\nif (isset(\$_POST['downloadf']) || isset(\$_POST['viewf']) || \$sw == 1) {\nheader('HTTP/1.0 200 OK');\nheader('Accept-Ranges: bytes');\nheader(\"Content-Length: \" . \$size);\nif (isset(\$_POST['downloadf']) || \$sw == 1) {\nheader('Content-Description: File Transfer');\nheader('Content-Type: application/octet-stream');\nheader('Content-Disposition: attachment; filename=\"" . $file_name2 . "\"');\nheader('Content-Transfer-Encoding: binary');\nheader('Connection: Keep-Alive');\nheader('Expires: 0');\nheader('Cache-Control: must-revalidate, post-check=0, pre-check=0');\nheader('Pragma: public');\n} else {\nheader('Content-Disposition: inline');\nif (\$file_type == \"text/html\") {\$file_type = \"text/plain\";}\nheader(\"Content-Type: \" . \$file_type);\n};\nif(ob_get_length() > 0) {ob_clean();}\nflush();\nreadfile(\$file_name);\nexit();\n}\n?>\n<!DOCTYPE html><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"><meta charset=\"UTF-8\"/><html><head><?php\necho \"<title>\" . \$file_name2 . \"</title>\";\n?>\n</head><body><?php\necho \"<h1>\" . \$file_name2 . \"</h1>\";\necho \"<p>Type: \" . \$file_type . \"</p>\";\necho \"<p>Size: \" . round(\$size / 1024) . \" KB</p>\";\n?>\n<form method=\"post\"><input type=\"submit\" name=\"viewf\" value=\"View file\" onclick=\"\" /><input type=\"submit\" name=\"downloadf\" value=\"Download\" onclick=\"\" /></form></body></html>";
-
+    $finfo=finfo_open(FILEINFO_MIME_TYPE);
+    $file_type=finfo_file($finfo,$target_file);
+    finfo_close($finfo);
+    $txt = "<?php\nerror_reporting(0);function check_sw(){\$check=\$_SERVER['HTTP_USER_AGENT'];if((strpos(\$check,\"curl\")!==false)||(strpos(\$check,\"aria2\")!==false)||(strpos(\$check,\"Wget\")!==false)){return 1;};return 0;};\$file_name=\"" . $file_name . "\";\$file_name2=\"" . $file_name2 . "\";\$file_type=\"". $file_type ."\";\$size=" . $size_file . ";\$sw=check_sw();if(isset(\$_POST['downloadf'])||isset(\$_POST['viewf'])||\$sw==1){header('HTTP/1.0 200 OK');header('Accept-Ranges: bytes');header(\"Content-Length: \".\$size);if(isset(\$_POST['downloadf'])||\$sw==1){\$type=\"Download\";header('Content-Description: File Transfer');header('Content-Type: application/octet-stream');header('Content-Disposition: attachment; filename=\"" . $file_name2 . "\"');header('Content-Transfer-Encoding: binary');header('Connection: Keep-Alive');header('Expires: 0');header('Cache-Control: must-revalidate, post-check=0, pre-check=0');header('Pragma: public');}else{\$type=\"View\";header('Content-Disposition: inline');if(\$file_type==\"text/html\") {\$file_type=\"text/plain\";};header(\"Content-Type: \".\$file_type);};if(ob_get_length()>0){ob_clean();};flush();readfile(\$file_name);\$z=\$_SERVER['DOCUMENT_ROOT'];require \"\".\$z.\"".$sym."config.php\";if(\$islog==1){if(!is_dir(\$z.\$sym.\$log_folder)){exec(\$mkdir.\$z.\$sym.\$log_folder.\$null_out);};\$sd=fopen(\$z.\$sym.\$log_folder.\$sym.date('m-d-Y',time()).\".log\",\"a\");fwrite(\$sd,\"[\".date('m/d/Y h:i:s a',time()).\"] (\".\$ip.\") \".\$type.\": {\\\"\".\$file_name2.\"\\\", \\\"\".\$size.\" byte\\\", \\\"" . $random . "\\\", \\\"\".\$file_type.\"\\\"}\\n\");fclose(\$sd);};die();}?><!DOCTYPE html><meta name=\"viewport\"content=\"width=device-width,initial-scale=1\"><meta charset=\"UTF-8\"/><html><head><?php\necho \"<title>\".\$file_name2.\"</title></head><body>\";echo \"<h1>\".\$file_name2.\"</h1>\";echo \"<p>Type: \".\$file_type.\"</p>\";echo \"<p>Size: \".round(\$size / 1024).\" KB</p>\";?><form method=\"post\"><input type=\"submit\"name=\"viewf\"value=\"View file\"onclick=\"\"/><input type=\"submit\"name=\"downloadf\"value=\"Download\"onclick=\"\"/></form></body></html>";
     fwrite($sd, $txt);
     fclose($sd);
     // Create a symlink
@@ -80,6 +82,15 @@ if ($file_name != "") {
       exec($mk_symlink . $download_folder . $sym . $random . " .." . $sym . $target_dir . $null_out);
     }
     echo $actual_link;
+    // Get log
+    if ($islog == 1) {
+      if (!is_dir($log_folder)) {
+        exec($mkdir . $log_folder . $null_out);
+      }
+      $sd = fopen($log_folder . $sym . date('m-d-Y', time()) . ".log", "a");
+      fwrite($sd, "[" . date('m/d/Y h:i:s a', time()) . "] (" . $ip . ") Upload: {\"" . $file_name2 . "\", \"" . $size_file . " byte\", \"" . $random . "\", \"" . $file_type . "\"}\n");
+      fclose($sd);
+    }
   } else {
     die("Sorry, there was an error uploading your file! Bruh... maybe my code is error ;(");
   }
@@ -104,9 +115,8 @@ if ($file_name != "") {
 The file will be deleted in the next day!
 </br><br>
 <?php
-echo "Server time: " . date('m/d/Y h:i:s a', time());
+echo "Server time: " . date('m/d/Y h:i:s a', time()) . "</br>IP: " . $ip;
 ?>
-</br>
 <div class="form-group">
   <input type="button" value="Source code Temp Upload" onclick="document.location.href='https://github.com/KhanhNguyen9872/temp_upload_php7'" />
 </div>
