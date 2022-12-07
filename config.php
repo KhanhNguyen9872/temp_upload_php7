@@ -32,17 +32,18 @@ if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
 	$mk_symlink = "ln -s ";
 	$sym = "/";
 }
+$z=$_SERVER['DOCUMENT_ROOT'];
 $target_dir = $upload_folder . $sym . $date . $sym;
-if (!is_dir($upload_folder)) {
-  exec($mkdir . $upload_folder . $null_out);
+if (!is_dir($z . $sym . $upload_folder)) {
+  exec($mkdir . $z . $sym . $upload_folder . $null_out);
 }
-if (!is_dir($target_dir)) {
-  exec($rm_folder . $download_folder . $null_out);
-  exec($mkdir . $download_folder . $null_out);
+if (!is_dir($z . $sym . $target_dir)) {
+  exec($rm_folder . $z . $sym . $download_folder . $null_out);
+  exec($mkdir . $z . $sym . $download_folder . $null_out);
   if ($keep_file_upload == 0) {
-    exec($rm_folder . $upload_folder . $null_out);
-    exec($mkdir . $upload_folder . $null_out);
+    exec($rm_folder . $z . $sym . $upload_folder . $null_out);
+    exec($mkdir . $z . $sym . $upload_folder . $null_out);
   }
-  exec($mkdir . $target_dir . $null_out);
+  exec($mkdir . $z . $sym . $target_dir . $null_out);
 }
 ?>

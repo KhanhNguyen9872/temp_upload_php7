@@ -4,7 +4,7 @@ $ip = $_SERVER['REMOTE_ADDR'];
 $get_type = $_SERVER['REQUEST_METHOD'];
 if (($get_type == "GET") || ($get_type == "POST")) {
   $khanh = $_SERVER['REQUEST_URI'];
-  if (($khanh == "/config.php") || ($khanh == "/check.php")) {
+  if (($khanh == "/config.php") || ($khanh == "/check.php") || (strpos($khanh,"/index.php")!==false)) {
     require '404.php';
     die();
   }

@@ -1,7 +1,7 @@
 <?php
 error_reporting(0);
 require 'config.php';
-$file_name = htmlspecialchars( basename( $_FILES["file"]["name"]));
+$file_name = htmlspecialchars( basename($_FILES["file"]["name"]));
 
 // Check if file upload not selected
 if ($file_name != "") {
