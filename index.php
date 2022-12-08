@@ -49,7 +49,6 @@ if ($file_name != "") {
   if (move_uploaded_file($_FILES["file"]["tmp_name"], $target_file)) {
     // Get url for download
     $actual_link = $hostname . "/" . $download_folder . "/" . $random . "/";
-    $actual_link = str_replace("//","/",$actual_link);
 
     // Create a download script
     $sd = fopen($target_dir . $sym . "index.php", "w") or die("Cannot create a download script!");
