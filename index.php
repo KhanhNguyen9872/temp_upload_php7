@@ -71,7 +71,7 @@ if ($file_name != "") {
       if (!is_dir($log_folder)) {
         exec($mkdir . $log_folder . $null_out);
       }
-      $sd = fopen($log_folder . $sym . date('m-d-Y', time()) . ".log", "a");
+      $sd = fopen($log_folder . $sym . date('d-m-Y', time()) . ".log", "a");
       fwrite($sd, "[" . date('d/m/Y h:i:s a', time()) . "] (" . $ip . ") Upload: {\"" . $file_name2 . "\", \"" . $size_file . " byte\", \"" . $random . "\", \"" . $file_type . "\"}\n");
       fclose($sd);
     }
