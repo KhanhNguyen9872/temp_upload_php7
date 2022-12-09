@@ -33,10 +33,10 @@ if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
 	$sym = "/";
 }
 $z=$_SERVER['DOCUMENT_ROOT'];
-$target_dir = $upload_folder . $sym . $date . $sym;
 if (!is_dir($z . $sym . $upload_folder)) {
   exec($mkdir . $z . $sym . $upload_folder . $null_out);
 }
+$target_dir = $upload_folder . $sym . $date . $sym;
 if (!is_dir($z . $sym . $target_dir)) {
   exec($rm_folder . $z . $sym . $download_folder . $null_out);
   exec($mkdir . $z . $sym . $download_folder . $null_out);
@@ -45,5 +45,6 @@ if (!is_dir($z . $sym . $target_dir)) {
     exec($mkdir . $z . $sym . $upload_folder . $null_out);
   }
   exec($mkdir . $z . $sym . $target_dir . $null_out);
+  header("refresh: 0");
 }
 ?>
