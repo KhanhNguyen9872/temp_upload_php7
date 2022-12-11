@@ -10,7 +10,10 @@ $upload_folder = "uploads";
 $download_folder = "file";
 // Date of folder
 $date = date("Y-m-d");
-// keep file upload (0 for FALSE, 1 for TRUE)
+// keep file upload 
+// 0 for Disable, 
+// 1 for Keep file from [upload_folder], but link download will be removed
+// 2 for Keep file from [upload_folder] and keep link download
 $keep_file_upload = 0;
 // get log from upload and download (0 for FALSE, 1 for TRUE)
 $islog = 0;
@@ -38,8 +41,10 @@ if (!is_dir($z . $sym . $upload_folder)) {
 }
 $target_dir = $upload_folder . $sym . $date . $sym;
 if (!is_dir($z . $sym . $target_dir)) {
-  exec($rm_folder . $z . $sym . $download_folder . $null_out);
-  exec($mkdir . $z . $sym . $download_folder . $null_out);
+	if (($keep_file_upload == 0) && ($keep_file_upload == 1)) {
+		exec($rm_folder . $z . $sym . $download_folder . $null_out);
+  	exec($mkdir . $z . $sym . $download_folder . $null_out);
+	}
   if ($keep_file_upload == 0) {
     exec($rm_folder . $z . $sym . $upload_folder . $null_out);
     exec($mkdir . $z . $sym . $upload_folder . $null_out);
