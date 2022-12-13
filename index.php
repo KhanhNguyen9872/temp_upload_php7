@@ -95,11 +95,10 @@ if ($file_name != "") {
   </br><br>
   <input type="submit" value="Upload" name="submit">
   </br>
-</form><br>
-The file will be deleted in the next day!
-</br><br>
+</form>
 <?php
-echo "Server time: " . date('d/m/Y h:i:s a', time()) . "</br>IP: " . $ip;
+if (($keep_file_upload == 0) || ($keep_file_upload == 1)) {echo "<br>The file will be deleted in the next day!</br>";}
+echo "<br>Server time: " . date('d/m/Y h:i:s a', time()) . "</br>IP: " . $ip;
 ?>
 <div class="form-group">
   <input type="button" value="Source code Temp Upload" onclick="document.location.href='https://github.com/KhanhNguyen9872/temp_upload_php7'" />

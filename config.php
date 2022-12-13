@@ -10,13 +10,13 @@ $upload_folder = "uploads";
 $download_folder = "file";
 // Date of folder
 $date = date("Y-m-d");
-// keep file upload 
-// 0 for Disable, 
+// keep file upload
+// 0 for Disable keep file
 // 1 for Keep file from [upload_folder], but link download will be removed
 // 2 for Keep file from [upload_folder] and keep link download
 $keep_file_upload = 0;
 // get log from upload and download (0 for FALSE, 1 for TRUE)
-$islog = 0;
+$islog = 1;
 // Folder for save log
 $log_folder = "log";
 // Check Windows or not
