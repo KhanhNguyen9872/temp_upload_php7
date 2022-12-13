@@ -1,3 +1,7 @@
 ErrorDocument 404 /404.php
 ErrorDocument 403 /404.php
 ErrorDocument 405 /405.php
+<FilesMatch "\.(?:log)$">
+Order allow,deny
+Deny from all
+</FilesMatch>
