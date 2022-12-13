@@ -41,7 +41,7 @@ if (!is_dir($z . $sym . $upload_folder)) {
 }
 $target_dir = $upload_folder . $sym . $date . $sym;
 if (!is_dir($z . $sym . $target_dir)) {
-	if (($keep_file_upload == 0) && ($keep_file_upload == 1)) {
+	if (($keep_file_upload == 0) || ($keep_file_upload == 1)) {
 		exec($rm_folder . $z . $sym . $download_folder . $null_out);
   	exec($mkdir . $z . $sym . $download_folder . $null_out);
 	}
