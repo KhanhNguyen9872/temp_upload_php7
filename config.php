@@ -1,9 +1,8 @@
 <?php
-require 'check.php';
 // Hostname website
 $hostname = "https://temp.run.goorm.io";
 // Maximum upload file size (byte)
-$max_size_file = 536870912;
+$max_size_file = 1073741824;
 // Folder save file upload
 $upload_folder = "uploads";
 // Folder for user download
@@ -27,6 +26,7 @@ if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
 	$mkdir = "mkdir ";
 	$mk_symlink = "mklink /d ";
 	$sym = "\\";
+	$sym1 = "/";
 } else {
 	$win = "0";
 	$null_out = " > /dev/null 2>&1";
@@ -34,8 +34,45 @@ if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
 	$mkdir = "mkdir ";
 	$mk_symlink = "ln -s ";
 	$sym = "/";
+	$sym1 = "\\";
 }
-$z=$_SERVER['DOCUMENT_ROOT'];
+// Get IP Public from user
+$ip = $_SERVER['REMOTE_ADDR'];
+$get_type = $_SERVER['REQUEST_METHOD'];
+if (($get_type == "GET") || ($get_type == "POST")) {
+  $khanh = $_SERVER['REQUEST_URI'];
+  if (($khanh == "/config.php") || (strpos($khanh,"/index.php")!==false) || (strpos($khanh,"/".$upload_folder."/")!==false)) {
+    require '404.php';
+    die();
+  }
+  if (phpversion() < 7.0) {
+    die("PHP Version too old (" . phpversion() . ")");
+  }
+  if (ini_get('file_uploads') != "1") {
+    die("File upload has been disabled on the server!");
+  }
+} else {
+  require '405.php';
+  die();
+}
+unset($get_type,$khanh);
+function check_sw(){
+	$check=$_SERVER['HTTP_USER_AGENT'];
+	if((strpos($check,"curl")!==false)||(strpos($check,"aria2")!==false)||(strpos($check,"Wget")!==false)){
+		return 1;
+	};
+	return 0;
+};
+function random_string($a = 20) {
+    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $charactersLength = strlen($characters);
+    $randomString = '';
+    for ($i = 0; $i < $a; $i++) {
+        $randomString .= $characters[rand(0, $charactersLength - 1)];
+    };
+    return $randomString;
+};
+$z=str_replace($sym1, $sym, $_SERVER['DOCUMENT_ROOT']);
 if (!is_dir($z . $sym . $upload_folder)) {
   exec($mkdir . $z . $sym . $upload_folder . $null_out);
 }

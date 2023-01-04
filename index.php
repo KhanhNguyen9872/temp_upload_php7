@@ -1,20 +1,11 @@
 <?php
 error_reporting(0);
 require 'config.php';
-
+$_alert = null;
 $file_name = htmlspecialchars( basename($_FILES["file"]["name"]));
 
 // Check if file upload not selected
 if ($file_name != "") {
-  function random_string() {
-      $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-      $charactersLength = strlen($characters);
-      $randomString = '';
-      for ($i = 0; $i < 20; $i++) {
-          $randomString .= $characters[rand(0, $charactersLength - 1)];
-      }
-      return $randomString;
-  }
   if (!is_dir($download_folder)) {
     exec($mkdir . $download_folder . $null_out);
   }
@@ -47,6 +38,8 @@ if ($file_name != "") {
     die("Sorry, this file already exists! Please rename your file and try again!");
   }
 
+  $sw=check_sw();
+
   if (move_uploaded_file($_FILES["file"]["tmp_name"], $target_file)) {
     // Get url for download
     $actual_link = $hostname . "/" . $download_folder . "/" . $random . "/";
@@ -56,7 +49,9 @@ if ($file_name != "") {
     $finfo=finfo_open(FILEINFO_MIME_TYPE);
     $file_type=finfo_file($finfo,$target_file);
     finfo_close($finfo);
-    $txt = "<?php\n\$z=\$_SERVER['DOCUMENT_ROOT'];require \"\".\$z.\"".$sym."config.php\";error_reporting(0);function check_sw(){\$check=\$_SERVER['HTTP_USER_AGENT'];if((strpos(\$check,\"curl\")!==false)||(strpos(\$check,\"aria2\")!==false)||(strpos(\$check,\"Wget\")!==false)){return 1;};return 0;};\$file_name=\"" . $file_name . "\";\$file_name2=\"" . $file_name2 . "\";\$file_type=\"". $file_type ."\";\$size=" . $size_file . ";\$random_str=\"" . $random . "\";\$sw=check_sw();if(isset(\$_POST['downloadf'])||isset(\$_POST['viewf'])||\$sw==1){if((isset(\$_POST['viewf']))&&((strpos(\$file_type,\"video/\")!==false)||(strpos(\$file_type,\"audio/\")!==false))){header(\"Location: \".\$hostname.\"/\".\$download_folder.\"/\".\$random_str.\"/\".rawurlencode(\$file_name));die();};header('HTTP/1.0 200 OK');header('Accept-Ranges: bytes');header(\"Content-Length: \".\$size);if(isset(\$_POST['downloadf'])||\$sw==1){\$type=\"Download\";header('Content-Description: File Transfer');header('Content-Type: application/octet-stream');header('Content-Disposition: attachment; filename=\"" . $file_name2 . "\"');header('Content-Transfer-Encoding: binary');header('Connection: Keep-Alive');header('Expires: 0');header('Cache-Control: must-revalidate, post-check=0, pre-check=0');header('Pragma: public');}else{\$type=\"View\";header('Content-Disposition: inline');if(\$file_type==\"text/html\") {\$file_type=\"text/plain\";};header(\"Content-Type: \".\$file_type);};if(ob_get_length()>0){ob_clean();};flush();readfile(\$file_name);if(\$islog==1){if(!is_dir(\$z.\$sym.\$log_folder)){exec(\$mkdir.\$z.\$sym.\$log_folder.\$null_out);};\$sd=fopen(\$z.\$sym.\$log_folder.\$sym.date('d-m-Y',time()).\".log\",\"a\");fwrite(\$sd,\"[\".date('d/m/Y h:i:s a',time()).\"] (\".\$ip.\") \".\$type.\": {\\\"\".\$file_name2.\"\\\", \\\"\".\$size.\" byte\\\", \\\".\$random_str.\\\", \\\"\".\$file_type.\"\\\"}\\n\");fclose(\$sd);};die();}else{\$up_time=\"" . date('d/m/Y h:i:s a', time()) . "\";\$up_device=\"" . gethostname() . "\";}?><!DOCTYPE html><meta name=\"viewport\"content=\"width=device-width,initial-scale=1\"><meta charset=\"UTF-8\"/><html><head><?php\necho \"<title>\".\$file_name2.\"</title></head><body>\";echo \"<h1>\".\$file_name2.\"</h1>\";echo \"<p>Upload time: \".\$up_time.\"</p><p>Upload device: \".\$up_device.\"</p><p>Type: \".\$file_type.\"</p><p>Size: \".round(\$size / 1024).\" KB</p>\";?><form method=\"post\"><input type=\"submit\"name=\"viewf\"value=\"View file\"onclick=\"\"/><input type=\"submit\"name=\"downloadf\"value=\"Download\"onclick=\"\"/></form></body></html>";
+    $_image = "data:image/jpg;base64," . base64_encode(file_get_contents("https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl=" . rawurlencode($actual_link)));
+    $key_del = random_string(12);
+    $txt = "<?php \$z=\$_SERVER['DOCUMENT_ROOT'];require \"\".\$z.\"".$sym."config.php\";\$z=str_replace(\$sym1,\$sym,\$z);error_reporting(0);\$random_str=\"".$random."\";\$key_del=\"".$key_del."\";if(isset(\$_POST[\"key_del\"])){if(\$_POST[\"key_del\"]==\$key_del){exec(\$rm_folder.\$z.\$sym.\$download_folder.\$sym.\$random_str.\$null_out);exec(\$rm_folder.\$z.\$sym.\$upload_folder.\$sym.\"".$date."\".\$sym.\$random_str.\$null_out);header(\"refresh: 0\");};};\$file_name=\"".$file_name."\";\$file_name2=\"".$file_name2."\";\$file_type=\"".$file_type."\";\$size=".$size_file.";\$sw=check_sw();if(isset(\$_POST['downloadf'])||isset(\$_POST['viewf'])||\$sw==1){if((isset(\$_POST['viewf']))&&((strpos(\$file_type,\"video/\")!==false)||(strpos(\$file_type,\"audio/\")!==false))){header(\"Location: \".\$hostname.\"/\".\$download_folder.\"/\".\$random_str.\"/\".rawurlencode(\$file_name));die();};header('HTTP/1.0 200 OK');header('Accept-Ranges: bytes');header(\"Content-Length: \".\$size);if(isset(\$_POST['downloadf'])||\$sw==1){\$type=\"Download\";header('Content-Description: File Transfer');header('Content-Type: application/octet-stream');header('Content-Disposition: attachment; filename=\"".$file_name2."\"');header('Content-Transfer-Encoding: binary');header('Connection: Keep-Alive');header('Expires: 0');header('Cache-Control: must-revalidate, post-check=0, pre-check=0');header('Pragma: public');}else{\$type=\"View\";header('Content-Disposition: inline');if(\$file_type==\"text/html\") {\$file_type=\"text/plain\";};header(\"Content-Type: \".\$file_type);};if(ob_get_length()>0){ob_clean();};flush();readfile(\$file_name);if(\$islog==1){if(!is_dir(\$z.\$sym.\$log_folder)){exec(\$mkdir.\$z.\$sym.\$log_folder.\$null_out);};\$sd=fopen(\$z.\$sym.\$log_folder.\$sym.date('d-m-Y',time()).\".log\",\"a\");fwrite(\$sd,\"[\".date('d/m/Y h:i:s a',time()).\"] (\".\$ip.\") \".\$type.\": {\\\"\".\$file_name2.\"\\\", \\\"\".\$size.\" byte\\\", \\\".\$random_str.\\\", \\\"\".\$file_type.\"\\\"}\\n\");fclose(\$sd);};die();}else{\$up_time=\"".date('d/m/Y h:i:s a', time())."\";\$up_device=\"".gethostname()."\";}?><!doctype html><html class=\"no-js\"><head><meta charset=\"utf-8\"><meta http-equiv=\"X-UA-Compatible\"content=\"IE=edge\"><?php echo \"<title>\".\$file_name2.\"</title>\";\n?><meta name=\"description\"content=\"Easy and fast file sharing from the command-line.\"><meta name=\"viewport\"content=\"width=device-width, initial-scale=1.0\"><link rel=\"stylesheet\"href=\"/src/styles/main.css\"><link href='/src/styles/droid_sans_mono.css'rel='stylesheet'type='text/css'><link href='/src/styles/source_sans_pro.css'rel='stylesheet'type='text/css'></head><body id=\"download\"><div id=\"navigation\"><div class=\"wrapper\"><a href=\"/\"><h1>Temp Upload</h1></a><ul class=\"hidden-xs\"><li><a href=\"/#\">Home</a></li><li><a href=\"/#samples\">Sample use cases</a></li></ul></div></div><section id=\"home\"><div class=\"wrapper\"><br/><h2 class=\"page-title\"><b><?php echo \$file_name2;\n?></b></h2><h4>Upload time: <b><?php echo \$up_time.\" (".date_default_timezone_get().")\";\n?></b></h4><h4>Upload device: <b><?php echo \$up_device;\n?></b></h4><h4>Type: <b><?php echo \$file_type;\n?></b></h4><h4>Size: <b><?php echo round(\$size / 1024);\n?> KB</b></h4><form method=\"post\"><input type=\"submit\"class=\"btn-cta btn\"name=\"viewf\"value=\"View file\"onclick=\"\"/><br/><br/><input type=\"submit\"class=\"btn-cta btn\"name=\"downloadf\"value=\"Download\"onclick=\"\"/><br/><br/></form><div class=\"qrcode\"><img src=\"".$_image."\"/></div><br/><div id=\"from-terminal\"class=\"box col-md-8 col-md-offset-2 col-xs-12\"><div class=\"terminal-top\"></div><div class=\"terminal\"><div id=\"web\"><form action=\"\"method=\"post\"enctype=\"multipart/form-data\"><input type=\"text\"id=\"key_del\"name=\"key_del\"value=\"\"placeholder=\"KEY\"><input type=\"submit\"value=\"DELETE\"id=\"confirm-delete\"class=\"btn-cta btn\"></i> </a> <br/><br/></form></div></div></div><br/></div></section><a href=\"https://github.com/KhanhNguyen9872/temp_upload_php7/\"><img style=\"position: absolute; top: 0; right: 0; border: 0;\" src=\"/src/images/fork.png\" alt=\"Fork me on GitHub\" data-canonical-src=\"/src/images/fork.png\"></a></body></html>";
     fwrite($sd, $txt);
     fclose($sd);
     // Create a symlink
@@ -65,7 +60,6 @@ if ($file_name != "") {
     } else {
       exec($mk_symlink . $download_folder . $sym . $random . " .." . $sym . $target_dir . $null_out);
     }
-    echo $actual_link;
     // Get log
     if ($islog == 1) {
       if (!is_dir($log_folder)) {
@@ -78,36 +72,197 @@ if ($file_name != "") {
   } else {
     die("Sorry, there was an error uploading your file! Bruh... maybe my code is error ;(");
   }
-  die();
+  if ($sw==1) {
+    die($actual_link);
+  } else {
+    $_alert = $actual_link;
+  }
 }
-?>
-<!DOCTYPE html>
-<title>Temp Upload</title>
-<html><body>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta charset="UTF-8"/>
-<form action="" method="post" enctype="multipart/form-data">
-  <?php
-  echo "Select file to upload (Max: ". round($max_size_file / 1024) . " KB)";
-  ?>
-  <br>
-  <input type="file" name="file" id="file">
-  </br><br>
-  <input type="submit" value="Upload" name="submit">
-  </br>
-</form>
-<?php
-if (($keep_file_upload == 0) || ($keep_file_upload == 1)) {echo "<br>The file will be deleted in the next day!</br>";}
-echo "<br>Server time: " . date('d/m/Y h:i:s a', time()) . "</br>IP: " . $ip;
-?>
-<div class="form-group">
-  <input type="button" value="Source code Temp Upload" onclick="document.location.href='https://github.com/KhanhNguyen9872/temp_upload_php7'" />
-</div>
+?><!doctype html>
+<html class="no-js">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Temp Upload</title>
+    <meta name="description" content="Easy and fast file sharing from the command-line.">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/src/styles/main.css">
+    <link href='/src/styles/droid_sans_mono.css' rel='stylesheet' type='text/css'>
+    <link href='/src/styles/source_sans_pro.css' rel='stylesheet' type='text/css'>
+</head>
+<body>
+    <div id="navigation">
+        <div class="wrapper">
+            <a href="/">
+                <h1>Temp Upload</h1>
+            </a>
+            <ul class="hidden-xs">
+                <li><a href="#">Home</a>
+                </li>
+                <li><a href="#samples">Sample use cases</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+<section id="home">
+    <div class="wrapper">
+        <h2 class="page-title">
+            Easy file sharing from the command line</h2>
+        <div class="row animated fadeInDown">
+            <div id="from-terminal" class="box col-md-8 col-md-offset-2 col-xs-12">
+                <div class="terminal-top">
+                </div>
+                <div id="terminal" class="terminal">
+                    <code class="code-wrapper"><span class="code-title"># Upload using cURL</span>
+                        $ curl -F "file=@hello.txt" <?php echo $hostname . "<br>" . $hostname . "/file/G3Nl4iCrHM7YVUrXIYfA/";
+                        ?>
+                        <br>
+                        <span class="code-title"># Using the shell function</span>
+                        $ temp hello.txt <br><?php echo $hostname . "/file/G3Nl4iCrHM7YVUrXIYfA/";
+                        ?>
+                    </code>
+                </div>
+                <div id="web">
+                    <code class="code-wrapper">
+                        <span class="code-title"># Upload from web</span>
+                        <?php if (($keep_file_upload == 0) || ($keep_file_upload == 1)) {echo "<br>The file will be deleted in the next day!";};echo "<br>Server time: " . date('d/m/Y h:i:s a', time()) . " (" . date_default_timezone_get() . ")" . "</br>IP: " . $ip;
+                        ?>
+                        <form action="" method="post" enctype="multipart/form-data">
+                            <?php echo "Select file to upload (Max: ". round($max_size_file / 1024) . " KB)";
+                            ?>
+                            <input type="file" name="file" id="file">
+                            <input type="submit" value="Upload" name="submit">
+                        </form>
+                        <?php if($_alert != null) {echo "<span class=\"code-title\">>> Uploaded: " . $file_name2 . "</span><br>" . $_alert . "<br><button onclick=\"copy(0)\">Copy link</button><div class=\"qrcode\"><img src=\"" . $_image . "\"/></div><br><span class=\"code-title\">>> Key DELETE: " . $key_del . "</span><br><button onclick=\"copy(1)\">Copy KEY</button>";};
+                        ?>
+                    </code>
+                </div>
+            </div>
+        </div>
+</section>
+<section id="samples">
+    <div class="wrapper">
+        <h2 class="page-title">
+            Sample use cases
+        </h2>
+        <div class="row">
+            <div class="col-md-6 ">
+                <h3>How to upload</h3>
+                <div class="terminal-top">
+
+                </div>
+                <div class="terminal">
+                    <code class="code-wrapper"><span class="code-title"># Uploading is easy using curl</span>
+                        $ curl -F "file=@hello.txt" <?php echo $hostname . "<br>>> " . $hostname . "/file/G3Nl4iCrHM7YVUrXIYfA/";
+                        ?>
+                      </br>
+                        <span class="code-title"># Download the file</span>
+                        $ curl <?php echo $hostname . "/file/G3Nl4iCrHM7YVUrXIYfA/ -o hello.txt";
+                        ?>
+                    </code>
+                </div>
+            </div>
+            <div class="col-md-6 ">
+                <h3>Add shell function to .bashrc or .zshrc</a></h3>
+                <div class="terminal-top">
+                </div>
+                <div class="terminal">
+                    <code class="code-wrapper"><span class="code-title"># Add this to .bashrc or .zshrc or its equivalent</span>
+                        temp(){ if [ $# -eq 0 ]; then echo "Use: temp [file]"; else if [ -f "$@" ]; then curl -F "file=@$@" <?php echo $hostname
+                      ?>; else if [ -d "$@" ]; then echo "$1 must be a file! not a folder!"; else echo "$1 not found!";fi;fi;fi }
+
+                        <span class="code-title"># Now you can use temp function</span>
+                        $ temp hello.txt
+                        <?php echo ">> " . $hostname . "/file/vuFxRRNNnMvBsZ1mkmEI/";
+                        ?>
+                    </code>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <h3>Encrypt your files with openssl before upload</h3>
+              <div class="terminal-top">
+              </div>
+              <div class="terminal">
+                  <code class="code-wrapper"><span class="code-title"># Encrypt files with password using openssl</span>
+                      $ cat hello.txt|openssl aes-256-cbc -pbkdf2 -e|curl -F "file=@-" <?php echo $hostname;
+                      ?><br><?php echo ">> " . $hostname . "/file/G3Nl4iCrHM7YVUrXIYfA/";
+                      ?>
+                      <br>
+                      <span class="code-title"># Download and decrypt</span>
+                      $ curl <?php echo $hostname . "/file/G3Nl4iCrHM7YVUrXIYfA/";
+                      ?>|openssl aes-256-cbc -pbkdf2 -d > hello.txt
+                  </code>
+              </div>
+          </div>
+          <div class="col-md-6">
+            <h3>Upload a file in Windows</h3>
+            <div class="terminal-top">
+            </div>
+            <div class="terminal">
+              <code class="code-wrapper"><span class="code-title"># Save this as temp.cmd in Windows 10/11 (which has curl.exe)</span>
+@echo off
+setlocal EnableDelayedExpansion EnableExtensions
+goto main
+:usage
+echo No arguments specified. >&2
+echo Usage: >&2
+echo temp ^<file^|directory^> >&2
+echo ... ^| temp ^<file_name^> >&2
+exit /b 1
+:main
+if "%~1" == "" goto usage
+timeout.exe /t 0 >nul 2>nul || goto not_tty
+set "file=%~1"
+for %%A in ("%file%") do set "file_name=%%~nxA"
+if exist "%file_name%" goto file_exists
+echo %file%: No such file or directory >&2
+exit /b 1
+:file_exists
+if not exist "%file%\" goto not_a_directory
+set "file_name=%file_name%.zip"
+pushd "%file%" || exit /b 1
+set "full_name=%temp%\%file_name%"
+powershell.exe -Command "Get-ChildItem -Path . -Recurse | Compress-Archive -DestinationPath ""%full_name%"""
+curl.exe --form "file=@%full_name%" "<?php echo $hostname;
+?>"
+popd
+goto :eof
+:not_a_directory
+curl.exe --form "file=@%file%" "<?php echo $hostname;
+?>"
+goto :eof
+:not_tty
+set "file_name=%~1"
+curl.exe --form "file=@-" "<?php echo $hostname;
+?>"
+goto :eof
+            <br><span class="code-title"># Now you can use temp function</span>
+              C:\Users\KhanhNguyen9872>temp.cmd hello.txt
+              <?php echo ">> " . $hostname . "/file/vuFxRRNNnMvBsZ1mkmEI/";
+              ?>
+            </code>
+          </div>
+        </div> 
+      </div>
+    </div>
+</section>
+<a href="https://github.com/KhanhNguyen9872/temp_upload_php7/"><img style="position: absolute; top: 0; right: 0; border: 0;" src="/src/images/fork.png" alt="Fork me on GitHub" data-canonical-src="/src/images/fork.png"></a>
 <script>
-document.forms[0].addEventListener('submit', function( evt ) {
-    var file = document.getElementById('file').files[0];
-    <?php
-    echo "if (file && file.size > " . $max_size_file . ") {evt.preventDefault();}"
-    ?>
-}, false);
-</script></body></html>
+function copy(aa) {
+  if (aa === 0) {
+  <?php echo "var text=\"" . $_alert . "\";";
+  ?>
+  } else if (aa === 1) {
+    <?php echo "var text=\"" . $key_del . "\";";
+  ?>
+  }
+  navigator.clipboard.writeText(text).then(() => {alert("Copied: " + text);}).catch(() => {alert("Cannot copy link!");});
+}
+document.forms[0].addEventListener('submit', function( evt ) {var file = document.getElementById('file').files[0];<?php echo "if (file && file.size > " . $max_size_file . ") {evt.preventDefault();}"
+?>}, false);
+</script>
+</body>
+</html>
