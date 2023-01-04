@@ -3,6 +3,8 @@ Web temp file upload look like temp.sh/transfer.sh using PHP7, HTML on Linux and
 
 <img alt="README" src="https://raw.githubusercontent.com/KhanhNguyen9872/temp_upload_php7/main/README.png" />
 
+<img alt="README0" src="https://raw.githubusercontent.com/KhanhNguyen9872/temp_upload_php7/main/README0.png" />
+
 ## DEMO
 [Temp Upload](https://temp.run.goorm.io)
 
