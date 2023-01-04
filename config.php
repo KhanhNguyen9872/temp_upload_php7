@@ -72,6 +72,16 @@ function random_string($a = 20) {
     };
     return $randomString;
 };
+function write_log($z,$islog,$log_folder,$mkdir,$null_out,$sym,$ip,$type,$file_name2,$size_file,$random,$file_type) {
+	if ($islog == 1) {
+		if (!is_dir($z . $sym . $log_folder)) {
+			exec($mkdir . $z . $sym .  $log_folder . $null_out);
+		}
+		$sd = fopen($z . $sym . $log_folder . $sym . date('d-m-Y', time()) . ".log", "a");
+		fwrite($sd, "[" . date('d/m/Y h:i:s a', time()) . "] (" . $ip . ") " . $type . ": {\"" . $file_name2 . "\", \"" . $size_file . " byte\", \"" . $random . "\", \"" . $file_type . "\"}\n");
+		fclose($sd);
+    }
+}
 $z=str_replace($sym1, $sym, $_SERVER['DOCUMENT_ROOT']);
 if (!is_dir($z . $sym . $upload_folder)) {
   exec($mkdir . $z . $sym . $upload_folder . $null_out);
