@@ -17,7 +17,6 @@ if($file_name!=""){
   if($size_file>$max_size_file){die("Sorry, this file is too large (".$size_file." byte)");};
 
   $file_name2=$file_name;
-  $target_file=$target_dir.$file_name;
   $FileType=strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
   $file_name=random_string(30).".".$FileType;
   // Rename to txt if file is unsupported type
