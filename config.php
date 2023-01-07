@@ -66,7 +66,7 @@ function write_log($z,$islog,$log_folder,$mkdir,$null_out,$sym,$ip,$type,$file_n
 		$sd=fopen($z.$sym.$log_folder.$sym.date('d-m-Y', time()).".log", "a");
 		fwrite($sd, "[".date('d/m/Y h:i:s a', time())."] (".$ip.") ".$type.": {\"".$file_name2."\", \"".$size_file." byte\", \"".$random."\", \"".$file_type."\"}\n");
 		fclose($sd);
-   };
+  };
 };
 $z=str_replace($sym1,$sym,$_SERVER['DOCUMENT_ROOT']);
 $target_dir=$upload_folder.$sym.$date.$sym;
@@ -75,9 +75,9 @@ if(!is_dir($z.$sym.$target_dir)){
   if($keep_file_upload==0){exec($rm_folder.$z.$sym.$upload_folder.$null_out);};
   exec($mkdir.$z.$sym.$download_folder.$null_out);
   exec($mkdir.$z.$sym.$upload_folder.$null_out);
-  exec("echo Deny from all > ".$z.$sym.$upload_folder.$sym.".htaccess".$null_2);
   exec($mkdir.$z.$sym.$target_dir.$null_out);
   header("refresh: 0");
 };
+if(!is_file($z.$sym.$upload_folder.$sym.".htaccess")){exec("echo Deny from all > ".$z.$sym.$upload_folder.$sym.".htaccess".$null_2);};
 if(!is_dir($z.$sym.$download_folder)){exec($mkdir.$z.$sym.$download_folder.$null_out);};
 ?>
