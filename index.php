@@ -48,7 +48,7 @@ if($file_name!=""){
     // Get log
     write_log($z,$islog,$log_folder,$mkdir,$null_out,$sym,$ip,"Upload",$file_name2,$size_file,$random,$file_type);
   }else{die("Sorry, there was an error uploading your file! Bruh... maybe my code is error ;(");};
-  if($sw==1){die($actual_link);}else{$_alert=$actual_link;};};
+  if($sw==1){die($actual_link."     ".$key_del);}else{$_alert=$actual_link;};};
 ?><!doctype html><html class="no-js"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible"content="IE=edge"><title>Temp Upload</title><meta name="description"content="Easy and fast file sharing from the command-line."><meta name="viewport"content="width=device-width, initial-scale=1.0"><link rel="stylesheet"href="/src/styles/main.css"><link href='/src/styles/droid_sans_mono.css'rel='stylesheet'type='text/css'><link href='/src/styles/source_sans_pro.css'rel='stylesheet'type='text/css'></head><body><div id="navigation"><div class="wrapper"><a href="/"><h1>Temp Upload</h1></a><ul class="hidden-xs"><li><a href="#">Home</a></li><li><a href="#samples">Sample use cases</a></li></ul></div></div>
 <section id="home">
     <div class="wrapper">
