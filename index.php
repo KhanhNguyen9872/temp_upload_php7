@@ -60,27 +60,20 @@ if($file_name!=""){
                 </div>
                 <div id="terminal" class="terminal">
                     <code class="code-wrapper"><span class="code-title"># Upload using cURL</span>
-                        $ curl -F "file=@hello.txt" <?php echo $hostname."<br>".$hostname."/file/G3Nl4iCrHM7YVUrXIYfA/";
-                        ?>
-                        <br>
-                        <span class="code-title"># Using the shell function</span>
-                        $ temp hello.txt <br><?php echo $hostname."/file/G3Nl4iCrHM7YVUrXIYfA/";
-                        ?>
+                        $ curl -F "file=@hello.txt" <?php echo $hostname."<br>>> ".$hostname; ?>/file/G3Nl4iCrHM7YVUrXIYfA/     6uF3FiKKmmUIAwD<br><span class="code-title"># Using the shell function</span>
+                        $ temp hello.txt <br><?php echo ">> ".$hostname; ?>/file/G3Nl4iCrHM7YVUrXIYfA/     6uF3FiKKmmUIAwD
                     </code>
                 </div>
                 <div id="web">
                     <code class="code-wrapper">
                         <span class="code-title"># Upload from web</span>
-                        <?php if(($keep_file_upload==0)||($keep_file_upload==1)){echo "<br>The file will be deleted in the next day!";};echo "<br>Server time: ".date('d/m/Y h:i:s a', time())." (".date_default_timezone_get().")"."</br>IP: ".$ip;
-                        ?>
+                        <?php if(($keep_file_upload==0)||($keep_file_upload==1)){echo "<br>The file will be deleted in the next day!";};echo "<br>Server time: ".date('d/m/Y h:i:s a', time())." (".date_default_timezone_get().")"."</br>IP: ".$ip; ?>
                         <form action="" method="post" enctype="multipart/form-data">
-                            <?php echo "Select file to upload (Max: ".round($max_size_file / 1024)." KB)";
-                            ?>
+                            <?php echo "Select file to upload (Max: ".round($max_size_file / 1024)." KB)"; ?>
                             <input type="file" name="file" id="file">
                             <input type="submit" value="Upload" name="submit">
                         </form>
-                        <?php if($_alert!=null){echo "<span class=\"code-title\">>> Uploaded: ".$file_name2."</span><br>".$_alert."<br><button onclick=\"copy(0)\">Copy link</button><div class=\"qrcode\"><img src=\"".$_image."\"/></div><br><span class=\"code-title\">>> Key DELETE: ".$key_del."</span><br><button onclick=\"copy(1)\">Copy KEY</button>";};
-                        ?>
+                        <?php if($_alert!=null){echo "<span class=\"code-title\">>> Uploaded: ".$file_name2."</span><br>".$_alert."<br><button onclick=\"copy(0)\">Copy link</button><div class=\"qrcode\"><img src=\"".$_image."\"/></div><br><span class=\"code-title\">>> Key DELETE: ".$key_del."</span><br><button onclick=\"copy(1)\">Copy KEY</button>";}; ?>
                     </code>
                 </div>
             </div>
@@ -98,12 +91,9 @@ if($file_name!=""){
                 </div>
                 <div class="terminal">
                     <code class="code-wrapper"><span class="code-title"># Uploading is easy using curl</span>
-                        $ curl -F "file=@hello.txt" <?php echo $hostname."<br>>> ".$hostname."/file/G3Nl4iCrHM7YVUrXIYfA/";
-                        ?>
-                      </br>
+                        $ curl -F "file=@hello.txt" <?php echo ">> ".$hostname."<br>>> ".$hostname; ?>/file/G3Nl4iCrHM7YVUrXIYfA/     6uF3FiKKmmUIAwD</br>
                         <span class="code-title"># Download the file</span>
-                        $ curl <?php echo $hostname."/file/G3Nl4iCrHM7YVUrXIYfA/ -o hello.txt";
-                        ?>
+                        $ curl <?php echo $hostname."/file/G3Nl4iCrHM7YVUrXIYfA/ -o hello.txt"; ?>
                     </code>
                 </div>
             </div>
@@ -113,13 +103,11 @@ if($file_name!=""){
                 </div>
                 <div class="terminal">
                     <code class="code-wrapper"><span class="code-title"># Add this to .bashrc or .zshrc or its equivalent</span>
-                        temp(){ if [ $# -eq 0 ]; then echo "Use: temp [file]"; else if [ -f "$@" ]; then curl -F "file=@$@" <?php echo $hostname
-                      ?>; else if [ -d "$@" ]; then echo "$1 must be a file! not a folder!"; else echo "$1 not found!";fi;fi;fi }
+                        temp(){ if [ $# -eq 0 ]; then echo "Use: temp [file]"; else if [ -f "$@" ]; then curl -F "file=@$@" <?php echo $hostname ?>; else if [ -d "$@" ]; then echo "$1 must be a file! not a folder!"; else echo "$1 not found!";fi;fi;fi }
 
                         <span class="code-title"># Now you can use temp function</span>
                         $ temp hello.txt
-                        <?php echo ">> ".$hostname."/file/vuFxRRNNnMvBsZ1mkmEI/";
-                        ?>
+                        <?php echo ">> ".$hostname; ?>/file/G3Nl4iCrHM7YVUrXIYfA/     6uF3FiKKmmUIAwD
                     </code>
                 </div>
             </div>
@@ -131,13 +119,9 @@ if($file_name!=""){
               </div>
               <div class="terminal">
                   <code class="code-wrapper"><span class="code-title"># Encrypt files with password using openssl</span>
-                      $ cat hello.txt|openssl aes-256-cbc -pbkdf2 -e|curl -F "file=@-" <?php echo $hostname;
-                      ?><br><?php echo ">> ".$hostname."/file/G3Nl4iCrHM7YVUrXIYfA/";
-                      ?>
-                      <br>
+                      $ cat hello.txt|openssl aes-256-cbc -pbkdf2 -e|curl -F "file=@-" <?php echo $hostname; ?><br><?php echo ">> ".$hostname; ?>/file/G3Nl4iCrHM7YVUrXIYfA/     6uF3FiKKmmUIAwD<br>
                       <span class="code-title"># Download and decrypt</span>
-                      $ curl <?php echo $hostname."/file/G3Nl4iCrHM7YVUrXIYfA/";
-                      ?>|openssl aes-256-cbc -pbkdf2 -d > hello.txt
+                      $ curl <?php echo $hostname; ?>/file/G3Nl4iCrHM7YVUrXIYfA/|openssl aes-256-cbc -pbkdf2 -d > hello.txt
                   </code>
               </div>
           </div>
@@ -185,8 +169,7 @@ curl.exe --form "file=@-" "<?php echo $hostname;
 goto :eof
             <br><span class="code-title"># Now you can use temp function</span>
               C:\Users\KhanhNguyen9872>temp.cmd hello.txt
-              <?php echo ">> ".$hostname."/file/vuFxRRNNnMvBsZ1mkmEI/";
-              ?></code></div></div></div></div></section><a href="https://github.com/KhanhNguyen9872/temp_upload_php7/"><img style="position: absolute; top: 0; right: 0; border: 0;" src="/src/images/fork.png" alt="Fork me on GitHub" data-canonical-src="/src/images/fork.png"></a><script>function copy(aa){if(aa === 0){<?php echo "var text=\"".$_alert."\";";
+              <?php echo ">> ".$hostname; ?>/file/G3Nl4iCrHM7YVUrXIYfA/     6uF3FiKKmmUIAwD</code></div></div></div></div></section><a href="https://github.com/KhanhNguyen9872/temp_upload_php7/"><img style="position: absolute; top: 0; right: 0; border: 0;" src="/src/images/fork.png" alt="Fork me on GitHub" data-canonical-src="/src/images/fork.png"></a><script>function copy(aa){if(aa === 0){<?php echo "var text=\"".$_alert."\";";
   ?>}else if(aa === 1){<?php echo "var text=\"".$key_del."\";";
   ?>}navigator.clipboard.writeText(text).then(() => {alert("Copied: "+text);}).catch(() => {alert("Cannot copy link!");});}document.forms[0].addEventListener('submit',function( evt ){var file=document.getElementById('file').files[0];<?php echo "if(file&&file.size>".$max_size_file."){evt.preventDefault();}"
 ?>},false);
