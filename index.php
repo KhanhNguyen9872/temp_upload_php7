@@ -91,7 +91,7 @@ if($file_name!=""){
                 </div>
                 <div class="terminal">
                     <code class="code-wrapper"><span class="code-title"># Uploading is easy using curl</span>
-                        $ curl -F "file=@hello.txt" <?php echo ">> ".$hostname."<br>>> ".$hostname; ?>/file/G3Nl4iZ/     AABBCC11</br>
+                        $ curl -F "file=@hello.txt" <?php echo $hostname."<br>>> ".$hostname; ?>/file/G3Nl4iZ/     AABBCC11</br>
                         <span class="code-title"># Download the file</span>
                         $ curl <?php echo $hostname; ?>/file/G3Nl4iZ/ -o hello.txt<br>
                         <span class="code-title"># Delete the file</span>
