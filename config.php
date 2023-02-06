@@ -49,7 +49,7 @@ if(($get_type=="GET") || ($get_type=="POST")){$khanh=$_SERVER['REQUEST_URI'];
 unset($get_type,$khanh);
 function check_sw(){
 	$check=$_SERVER['HTTP_USER_AGENT'];
-	if((strpos($check,"curl")!==false)||(strpos($check,"aria2")!==false)||(strpos($check,"Wget")!==false)){return 1;};
+	if((strpos($check,"curl")!==false)||(strpos($check,"aria2")!==false)||(strpos($check,"Wget")!==false)||(strpos($check,"PowerShell")!==false)){return 1;};
 	return 0;
 };
 function random_string($a=20){
