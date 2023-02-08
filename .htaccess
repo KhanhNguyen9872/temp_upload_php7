@@ -1,3 +1,6 @@
 ErrorDocument 404 /404.php
 ErrorDocument 403 /404.php
 ErrorDocument 405 /405.php
+<LimitExcept GET POST>
+deny from all
+</LimitExcept>

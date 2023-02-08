@@ -41,7 +41,7 @@ if(strtoupper(substr(PHP_OS, 0, 3))==='WIN'){
 // Get IP Public from user
 $ip=$_SERVER['REMOTE_ADDR'];
 $get_type=$_SERVER['REQUEST_METHOD'];
-if(($get_type=="GET") || ($get_type=="POST")){$khanh=$_SERVER['REQUEST_URI'];
+if(($get_type=="GET")||($get_type=="POST")){$khanh=$_SERVER['REQUEST_URI'];
   if(($khanh=="/config.php")||(strpos($khanh,"/index.php")!==false)||(strpos($khanh,"/".$upload_folder."/")!==false)){require '404.php';die();};
   if(phpversion() < 7.0){die("PHP Version too old (".phpversion().")");};
   if(ini_get('file_uploads')!="1"){die("File upload has been disabled on the server!");};}else{require '405.php';die();
@@ -64,7 +64,7 @@ function write_log($z,$islog,$log_folder,$mkdir,$null_out,$sym,$ip,$type,$file_n
 		if(!is_dir($z.$sym.$log_folder)){exec($mkdir.$z.$sym. $log_folder.$null_out);};
 		if(!is_file($z.$sym.$log_folder.$sym.".htaccess")){exec("echo Deny from all > ".$z.$sym.$log_folder.$sym.".htaccess".$null_2);};
 		$sd=fopen($z.$sym.$log_folder.$sym.date('d-m-Y', time()).".log", "a");
-		fwrite($sd, "[".date('d/m/Y h:i:s a', time())."] (".$ip.") ".$type.": {\"".$file_name2."\", \"".$size_file." byte\", \"".$random."\", \"".$file_type."\"}\n");
+		fwrite($sd, "[".date('d/m/Y h:i:s a', time())."] {\"".$ip."\", \"".$type."\", \"".$file_name2."\", \"".$size_file." byte\", \"".$random."\", \"".$file_type."\", \"".$_SERVER['REQUEST_METHOD']."\", \"".$_SERVER['HTTP_USER_AGENT']."\"}\n");
 		fclose($sd);
   };
 };
