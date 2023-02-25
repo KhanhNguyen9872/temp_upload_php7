@@ -1,6 +1,6 @@
 <?php
 // Hostname website
-$hostname="https://temp.run.goorm.io";
+$hostname="https://tempup.run.goorm.app";
 // Maximum upload file size (byte)
 $max_size_file=1073741824;
 // Folder save file upload

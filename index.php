@@ -1,11 +1,14 @@
 <?php
 error_reporting(0);
+session_start();
 require 'config.php';
 $_alert=null;
+$sw=check_sw();
 $file_name=htmlspecialchars(basename($_FILES["file"]["name"]));
 
 // Check if file upload not selected
 if($file_name!=""){
+  if($_SESSION['rand']!=$_POST['captcha']){echo "Your session was closed due to a captcha error! Please go to the web and re-upload! [Do not reload or F5]";session_unset();session_destroy();die();};
   if(!is_dir($download_folder)){exec($mkdir.$download_folder.$null_out);};
   $random=random_string();
   $target_dir=$target_dir.$random.$sym;
@@ -27,7 +30,6 @@ if($file_name!=""){
   if(is_file($target_file)){
     die("Sorry, this file already exists! Please rename your file and try again!");
   };
-  $sw=check_sw();
   if(move_uploaded_file($_FILES["file"]["tmp_name"],$target_file)){
     // Get url for download
     $actual_link=$hostname."/".$download_folder."/".$random."/";
@@ -47,6 +49,8 @@ if($file_name!=""){
     write_log($z,$islog,$log_folder,$mkdir,$null_out,$sym,$ip,"Upload",$file_name2,$size_file,$random,$file_type);
   }else{die("Sorry, there was an error uploading your file! Bruh... maybe my code is error ;(");};
   if($sw==1){die($actual_link."     ".$key_del);}else{$_alert=$actual_link;};};
+
+if($sw==1){echo " * Example command:\n- cURL\nUpload: curl -F \"file=@hello.txt\" ".$hostname."\nDownload: curl ".$hostname."/file/G3Nl4iZ/ -o hello.txt\nDelete: curl -F \"del=AABBCC11\" ".$hostname."/file/G3Nl4iZ/\n";die();}else{$_SESSION["rand"]=random_string(15);};
 ?><!doctype html><meta property="og:type" content="article"><meta property="og:url" content="<?php echo $hostname ?>"><meta property="og:image" content="<?php echo $hostname ?>/src/images/main.png"/><html class="no-js"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible"content="IE=edge"><title>Temp Upload</title><meta name="description"content="Easy and fast file sharing from the command-line."><meta name="viewport"content="width=device-width, initial-scale=1.0"><link rel="stylesheet"href="/src/styles/main.css"><link href='/src/styles/droid_sans_mono.css'rel='stylesheet'type='text/css'><link href='/src/styles/source_sans_pro.css'rel='stylesheet'type='text/css'></head><body><div id="navigation"><div class="wrapper"><a href="/"><h1>Temp Upload</h1></a><ul class="hidden-xs"><li><a href="#">Home</a></li><li><a href="#samples">Sample use cases</a></li></ul></div></div>
 <section id="home">
     <div class="wrapper">
@@ -70,6 +74,7 @@ if($file_name!=""){
                         <form action="" method="post" enctype="multipart/form-data">
                             <?php echo "Select file to upload (Max: ".round($max_size_file / 1024)." KB)"; ?>
                             <input type="file" name="file" id="file">
+                            <input type="hidden" name="captcha" id="captcha" value="<?php echo $_SESSION["rand"] ?>">
                             <input type="submit" value="Upload" name="submit">
                         </form>
                         <?php if($_alert!=null){echo "<span class=\"code-title\">>> Uploaded: ".$file_name2."</span><br>".$_alert."<br><td><button onclick=\"copy(0)\">Copy link</button><button onclick=\"new_()\">Open in new tab</button></td><div class=\"qrcode\"><img src=\"".$_image."\"/></div><br><span class=\"code-title\">>> Key DELETE: ".$key_del."</span><br><button onclick=\"copy(1)\">Copy KEY</button>";}; ?>
