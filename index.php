@@ -8,7 +8,7 @@ $file_name=htmlspecialchars(basename($_FILES["file"]["name"]));
 
 // Check if file upload not selected
 if($file_name!=""){
-  if((!isset($_SESSION['rand']))||($_SESSION['rand']!=$_POST['captcha'])){echo "Your session was closed due to a captcha error! Please go to the web and re-upload! [Do not reload or F5]";session_unset();session_destroy();die();};
+  if((!isset($_SESSION['rand']))||($_SESSION['rand']!=$_POST['captcha'])){echo "Your session was closed due to a captcha error or timeout! Please go to the web and re-upload! [Do not reload or F5]";session_unset();session_destroy();die();};
   if(!is_dir($download_folder)){exec($mkdir.$download_folder.$null_out);};
   $random=random_string();
   $target_dir=$target_dir.$random.$sym;
