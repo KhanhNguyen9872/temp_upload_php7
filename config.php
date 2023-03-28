@@ -1,7 +1,7 @@
 <?php
 // Hostname website
 $hostname="https://tempup.run.goorm.app";
-if($_SERVER[HTTP_HOST]!=explode(' ',str_replace("/"," ",$hostname),5)[2]){header("Location: ".$hostname.$_SERVER[REQUEST_URI]);};
+// if($_SERVER[HTTP_HOST]!=explode(' ',str_replace("/"," ",$hostname),5)[2]){header("Location: ".$hostname.$_SERVER[REQUEST_URI]);};
 // Maximum upload file size (byte)
 $max_size_file=1073741824;
 // Folder save file upload
